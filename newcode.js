@@ -6,7 +6,6 @@ function figure(){
     // Circulo
     let xCircleSpeed = getRandomArbitrary(-5, 5);
     let yCircleSpeed = getRandomArbitrary(-5, 5);
-    
     // Aparesca en posicion random
     let radius = 100;
     let xCirclePosition = getRandomArbitrary((canvas.width -radius), radius);
@@ -24,16 +23,41 @@ function figure(){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   
+    class circule {
+      constructor (xCirclePosition, yCirclePosition, xCircleSpeed, yCircleSpeed, radius){
+        this.xCirclePosition = xCirclePosition;
+        this.yCirclePosition = yCirclePosition;
+        this.xCircleSpeed = xCircleSpeed;
+        this.yCircleSpeed = yCircleSpeed;
+        this.radius = radius;
+      }
+      drawCircule(){
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.arc(xCirclePosition, yCirclePosition, radius, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    } 
+
+
+    class squere {
+      constructor(xSquerePosition, ySquerePosition, xSquereSpeed, ySquereSpeed, side){
+        this.xSquerePosition = xSquerePosition;
+        this.ySquerePosition = ySquerePosition;
+        this.xSquereSpeed = xSquereSpeed;
+        this.ySquereSpeed = ySquereSpeed;
+        this.side = side;
+      }
+      drawSquere(){
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(xSquerePosition,ySquerePosition, side, side);
+      }
+    }
     function drawFigure(){
-      // cuadrado
-      ctx.fillStyle = 'blue';
-      ctx.fillRect(xSquerePosition,ySquerePosition, side, side);
-  
-      // circulo
-      ctx.beginPath();
-      ctx.fillStyle = 'red';
-      ctx.arc(xCirclePosition, yCirclePosition, radius, 0, 2 * Math.PI);
-      ctx.fill();
+      const figureCircule = new circule (xCirclePosition, yCirclePosition, xCircleSpeed, yCirclePosition, radius);
+      figureCircule.drawCircule();
+      const figureSquere = new squere(xSquerePosition, ySquerePosition, xSquereSpeed, ySquereSpeed,side);
+      figureSquere.drawSquere();
     }
   
     function animateFigure(){
@@ -56,7 +80,37 @@ function figure(){
       if (yCirclePosition + radius > canvas.height || yCirclePosition - radius < 0){
         yCircleSpeed = -yCircleSpeed
       }
-      
+       // colision que explico en clases 
+
+      let edgeX =  xCirclePosition;
+      let edgeY = yCirclePosition;
+  
+      if(xCirclePosition < xSquerePosition ){
+          edgeX =  xSquerePosition;
+      }else if (xCirclePosition > xSquerePosition + side ){
+          edgeX = xSquerePosition + side;
+      }
+  
+      if(yCirclePosition < ySquerePosition ){
+          edgeY = ySquerePosition
+      }else if(yCirclePosition > ySquerePosition + side){
+          edgeY = ySquerePosition + side
+      }
+      const distX  = xCirclePosition - edgeX;
+      const distY  = yCirclePosition - edgeY;
+      const distance = Math.sqrt((distX*distX) + (distY*distY));
+  
+      if(distance <= 100){
+          if(Math.abs(distX)<= 100 && Math.abs(distX) > 95){
+              xSquereSpeed = -xSquereSpeed
+              xCircleSpeed = -xCircleSpeed
+          }
+          if(Math.abs(distY)<=100 && Math.abs(distY) > 95){
+              ySquereSpeed = - ySquereSpeed
+              yCircleSpeed = -yCircleSpeed
+          }
+      }
+    
       
       xCirclePosition += xCircleSpeed;
       yCirclePosition += yCircleSpeed;
