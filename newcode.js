@@ -1,3 +1,5 @@
+// funcion que reliaza todo el ejercicio
+
 function figure(){
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -22,6 +24,8 @@ function figure(){
     function cleanFigure(){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
+
+    // clase circulo
   
     class circule {
       constructor (xCirclePosition, yCirclePosition, xCircleSpeed, yCircleSpeed, radius){
@@ -39,6 +43,8 @@ function figure(){
       }
     } 
 
+    
+    // clase cuadrado 
 
     class squere {
       constructor(xSquerePosition, ySquerePosition, xSquereSpeed, ySquereSpeed, side){
@@ -53,13 +59,14 @@ function figure(){
         ctx.fillRect(xSquerePosition,ySquerePosition, side, side);
       }
     }
+    // crea una instancia de circulo y el cuadrado
     function drawFigure(){
       const figureCircule = new circule (xCirclePosition, yCirclePosition, xCircleSpeed, yCirclePosition, radius);
       figureCircule.drawCircule();
       const figureSquere = new squere(xSquerePosition, ySquerePosition, xSquereSpeed, ySquereSpeed,side);
       figureSquere.drawSquere();
     }
-  
+    // anima las figuras y la colicion 
     function animateFigure(){
       cleanFigure();
       drawFigure();
@@ -80,7 +87,7 @@ function figure(){
       if (yCirclePosition + radius > canvas.height || yCirclePosition - radius < 0){
         yCircleSpeed = -yCircleSpeed
       }
-       // colision que explico en clases 
+       // colision que explico en clases codigo de Irene 
 
       let edgeX =  xCirclePosition;
       let edgeY = yCirclePosition;
@@ -122,6 +129,7 @@ function figure(){
   
     window.requestAnimationFrame(animateFigure);
   
+     // movimiento random
     function getRandomArbitrary(min, max) {
       return Math.random() * (max - min) + min;
     }
